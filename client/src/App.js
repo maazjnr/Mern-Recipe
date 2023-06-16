@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Mern Recipe
+          Pyservant & Maazscript
         </a>
       </header>
     </div>
