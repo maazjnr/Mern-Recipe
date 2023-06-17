@@ -9,7 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(
-  "mongodb+srv://Maazjnr:junior22@recipes.ivc2esv.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://Maaz:mz@recipe.ffxaqtb.mongodb.net/recipe?retryWrites=true&w=majority",
+    // {
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true,
+    // }
 );
 
 const PORT = 3001;
