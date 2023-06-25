@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
   return (
@@ -11,38 +13,28 @@ export const Auth = () => {
 };
 
 const Login = () => {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  return (
-    <Form
-      username={username}
-      setPassword={setPassword}
-      password={password}
-      setUsername={setUsername}
-      label='Login to your account'
-    />
-  );
-};
-
-const Register = () => {
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [_, setCookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
 
   const onSubmit = async (event) => {
-
     event.preventDefault();
 
     try {
-      await axios.post("http://localhost:3001/auth/register", {username, password} );
-      alert("Registration successfully registered");
-    } catch (err) {
-      console.error(err);
+      const response = await axios.post("http://localhost:3001/auth/login", {
+        username,
+        password,
+      });
+
+      setCookies("access_token", response.access_token);
+      window.localStorage.setItem("userId", response.data.userId);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
     }
-    
-  }
+  };
 
   return (
     <Form
@@ -50,13 +42,50 @@ const Register = () => {
       setPassword={setPassword}
       password={password}
       setUsername={setUsername}
-      label='Create an account'
+      label="Login to your account"
       onSubmit={onSubmit}
     />
   );
 };
 
-const Form = ({ username, setUsername, password, setPassword, label, onSubmit }) => {
+const Register = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      await axios.post("http://localhost:3001/auth/register", {
+        username,
+        password,
+      });
+      alert("Registration successfully registered");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <Form
+      username={username}
+      setPassword={setPassword}
+      password={password}
+      setUsername={setUsername}
+      label="Create an account"
+      onSubmit={onSubmit}
+    />
+  );
+};
+
+const Form = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  label,
+  onSubmit,
+}) => {
   return (
     <div className="auth-container">
       <form onSubmit={onSubmit}>
