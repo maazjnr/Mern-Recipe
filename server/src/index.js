@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { userRouter } from "./routes/users.js";
 
+import { userRouter } from "./routes/users.js";
+import { recipesRouter } from "./routes/recipes.js";
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ mongoose.connect(
 
 const PORT = 3001;
 app.use('/auth', userRouter);
+app.use('/recipes', recipesRouter);
 
 app.listen(PORT, (req, res) => {
   console.log(`App listening on ${PORT}`);
